@@ -1,0 +1,39 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3
+    .row
+      .col-12
+        +box-head(pageTitle)
+
+    if topics && topics.length
+      .row
+        each topic in topics
+          .col-6.mb-3
+            div(class="card")
+              img(src=topic.avatar)
+              div(class="card-body")
+                h5(class="card-title") #{topic.title}
+                p(class="card-text") #{topic.description}
+                a(href="/songs/" + topic.slug class="btn btn-primary") Xem chi tiết
+    else if songs && songs.length
+      .row
+        each song in songs
+          .col-6.mb-3
+            article(class="card song-card")
+              a(class="song-card-cover" href="/songs/detail/" + song.slug)
+                img(src=song.avatar alt=song.title loading="lazy")
+                span(class="song-genre") Nhạc trẻ
+              div(class="card-body song-card-body")
+                h5(class="card-title") #{song.title}
+                p(class="song-artist") #{song.artistName}
+                p(class="card-text") #{song.description}
+                div(class="song-card-actions")
+                  a(href="/songs/detail/" + song.slug class="btn btn-primary") Nghe bài hát
+                  button(type="button" class=("favorite-button" + (song.isFavoriteSong ? " active" : "")) data-favorite=song._id aria-label=(song.isFavoriteSong ? "Bỏ khỏi yêu thích" : "Thêm vào yêu thích") aria-pressed=(song.isFavoriteSong ? "true" : "false"))
+                    i(class=(song.isFavoriteSong ? "fa-solid fa-heart" : "fa-regular fa-heart") aria-hidden="true")
+    else
+      .row
+        .col-12
+          p Chưa có bài hát nào.

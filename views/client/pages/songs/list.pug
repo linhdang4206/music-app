@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3
+    .row
+      .col-12
+        +box-head(pageTitle)
+
+    .row
+      each song in songs
+        .col-6.mb-3
+          div(class="song-item")
+            div(class="inner-image")
+              a(href="/songs/detail/" + song.slug)
+                img(src=song.avatar)
+
+            div(class="inner-content")
+              div(class="inner-title")
+                a(href="/songs/detail/" + song.slug) #{song.title}
+              div(class="song-genre") Nhạc trẻ
+              div(class="inner-singer")
+                i(class="fa-solid fa-microphone-lines")
+                |  #{song.artistName}
+              div(class="inner-like")
+                i(class="fa-regular fa-thumbs-up")
+                |  #{song.like} thích
+              button(type="button" class=("favorite-button" + (song.isFavoriteSong ? " active" : "")) data-favorite=song._id aria-label=(song.isFavoriteSong ? "Bỏ khỏi yêu thích" : "Thêm vào yêu thích") aria-pressed=(song.isFavoriteSong ? "true" : "false"))
+                i(class=(song.isFavoriteSong ? "fa-solid fa-heart" : "fa-regular fa-heart") aria-hidden="true")
